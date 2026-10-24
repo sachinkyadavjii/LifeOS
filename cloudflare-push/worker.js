@@ -18,6 +18,19 @@ function json(data, status, origin, env) {
   });
 }
 function validDeviceId(value) { return typeof value === "string" && /^[a-f0-9-]{36}$/i.test(value); }
+function validPushEndpoint(value) {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.toLowerCase();
+    return url.protocol === "https:" && (
+      host === "fcm.googleapis.com" ||
+      host === "updates.push.services.mozilla.com" ||
+      host === "push.services.mozilla.com" ||
+      host === "web.push.apple.com" ||
+      host.endsWith(".notify.windows.com")
+    );
+  } catch { return false; }
+}
 function validTime(value) { return typeof value === "string" && /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(value); }
 function validZone(value) {
   if (typeof value !== "string" || value.length > 80) return false;
@@ -60,7 +73,7 @@ async function sendPush(env, device, title, body, tag) {
   };
   const payload = await buildPushPayload({
     data: JSON.stringify({ title: title, body: body, tag: tag, url: env.APP_ORIGIN + "/LifeOS/" }),
-    options: { ttl: 3600, urgency: "high", topic: "lifeos" },
+    options: { ttl: 3600, urgency: "high", topic: (tag || "lifeos").slice(0, 32) },
   }, subscription, {
     subject: env.VAPID_SUBJECT,
     publicKey: env.VAPID_PUBLIC_KEY,
@@ -94,7 +107,7 @@ async function handleRequest(request, env) {
     if (!validDeviceId(deviceId) || typeof deviceSecret !== "string" || deviceSecret.length < 40 || deviceSecret.length > 128) {
       return json({ error: "Invalid device credentials." }, 400, origin, env);
     }
-    if (!subscription || typeof subscription.endpoint !== "string" || !subscription.endpoint.startsWith("https://") ||
+    if (!subscription || typeof subscription.endpoint !== "string" || !validPushEndpoint(subscription.endpoint) ||
         !subscription.keys || typeof subscription.keys.p256dh !== "string" || typeof subscription.keys.auth !== "string") {
       return json({ error: "Invalid push subscription." }, 400, origin, env);
     }

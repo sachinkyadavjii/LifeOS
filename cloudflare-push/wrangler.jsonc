@@ -2,7 +2,9 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "lifeos-push",
   "main": "worker.js",
-  "compatibility_date": "2026-10-25",
+  "account_id": "d1edc26254aa49ff9c2cd8f9194d9a80",
+  "workers_dev": true,
+  "compatibility_date": "2026-10-24",
   "vars": {
     "APP_ORIGIN": "https://sachinkyadavjii.github.io",
     "VAPID_SUBJECT": "https://github.com/sachinkyadavjii/LifeOS"
@@ -14,7 +16,7 @@
     {
       "binding": "DB",
       "database_name": "lifeos-push",
-      "database_id": "REPLACE_WITH_DATABASE_ID"
+      "database_id": "33591e48-3e8c-4030-93d9-c8b40893401c"
     }
   ]
 }

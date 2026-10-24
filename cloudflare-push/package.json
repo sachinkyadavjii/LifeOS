@@ -11,6 +11,6 @@
     "@block65/webcrypto-web-push": "2.0.0"
   },
   "devDependencies": {
-    "wrangler": "^4.128.0"
+    "wrangler": "4.128.0"
   }
 }
