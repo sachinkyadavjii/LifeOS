@@ -1,0 +1,16 @@
+{
+  "name": "lifeos-push-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create lifeos-push",
+    "db:migrate": "wrangler d1 execute lifeos-push --remote --file=./schema.sql"
+  },
+  "dependencies": {
+    "@block65/webcrypto-web-push": "2.0.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.128.0"
+  }
+}

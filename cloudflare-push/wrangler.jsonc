@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lifeos-push",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-25",
+  "vars": {
+    "APP_ORIGIN": "https://sachinkyadavjii.github.io",
+    "VAPID_SUBJECT": "https://github.com/sachinkyadavjii/LifeOS"
+  },
+  "triggers": {
+    "crons": ["* * * * *"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "lifeos-push",
+      "database_id": "REPLACE_WITH_DATABASE_ID"
+    }
+  ]
+}
