@@ -1,10 +1,7 @@
-self.addEventListener('notificationclick', event => {
-  event.notification.close();
-  event.waitUntil((async () => {
-    const windows = await clients.matchAll({ type: 'window', includeUncontrolled: true });
-    for (const client of windows) {
-      if ('focus' in client) return client.focus();
-    }
-    if (clients.openWindow) return clients.openWindow(self.registration.scope);
-  })());
-});
+const CACHE_NAME='lifeos-pwa-v1';
+const APP_FILES=['./','./index.html','./advanced.js','./ultimate.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
+self.addEventListener('install',event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE_NAME);await cache.addAll(APP_FILES);await self.skipWaiting()})())});
+self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('lifeos-pwa-')&&key!==CACHE_NAME).map(key=>caches.delete(key)));await clients.claim()})())});
+self.addEventListener('fetch',event=>{const request=event.request;if(request.method!=='GET')return;const url=new URL(request.url);if(url.origin!==self.location.origin)return;event.respondWith((async()=>{const cache=await caches.open(CACHE_NAME);try{const response=await fetch(request);if(response.ok&&url.href.startsWith(self.registration.scope))cache.put(request,response.clone());return response}catch(error){const saved=await cache.match(request);if(saved)return saved;if(request.mode==='navigate')return cache.match(new URL('./',self.registration.scope).href);return new Response('Offline',{status:503,statusText:'Offline'})}})())});
+self.addEventListener('push',event=>{let data={};try{data=event.data?event.data.json():{}}catch(error){data={body:event.data?.text()||''}}const title=data.title||'LifeOS reminder',url=data.url||self.registration.scope;event.waitUntil(self.registration.showNotification(title,{body:data.body||'You have a scheduled reminder.',icon:new URL('./icons/icon-192.png',self.registration.scope).href,badge:new URL('./icons/icon-192.png',self.registration.scope).href,tag:data.tag||'lifeos-push',data:{url:url}}))});
+self.addEventListener('notificationclick',event=>{event.notification.close();const target=event.notification.data?.url||self.registration.scope;event.waitUntil((async()=>{const windows=await clients.matchAll({type:'window',includeUncontrolled:true});for(const client of windows){if(client.url.startsWith(self.registration.scope)){if('navigate' in client)await client.navigate(target);return client.focus()}}return clients.openWindow?clients.openWindow(target):undefined})())});
