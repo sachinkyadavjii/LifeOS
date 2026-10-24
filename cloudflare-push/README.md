@@ -9,11 +9,10 @@ The main LifeOS site is static. To deliver reminders while a browser is closed, 
 3. Sign in: `npx wrangler login`.
 4. Create the database: `npx wrangler d1 create lifeos-push`. Copy the returned database ID into `wrangler.jsonc`, replacing `REPLACE_WITH_DATABASE_ID`.
 5. Apply the schema: `npx wrangler d1 execute lifeos-push --remote --file=./schema.sql`.
-6. Generate a VAPID key pair: `node generate-vapid-keys.mjs`. Keep the private key secret. Add each value using the commands below, pasting the value when prompted:
+6. Generate a VAPID key pair: `node generate-vapid-keys.mjs`. Keep the private key secret. Add the two key values as Worker secrets, pasting each value when prompted:
    - `npx wrangler secret put VAPID_PUBLIC_KEY`
    - `npx wrangler secret put VAPID_PRIVATE_KEY`
-   - `npx wrangler secret put VAPID_SUBJECT`
-   For the subject value, enter `mailto:your-email@example.com` (use your own email).
+   The project keeps its contact subject in `wrangler.jsonc`; change it to your public contact email if you prefer.
 7. Deploy: `npx wrangler deploy`. Copy the Worker URL shown, for example `https://lifeos-push.<your-account>.workers.dev`.
 8. In the repository root, edit `push-config.js` and set `window.LIFEOS_PUSH_API` to that Worker URL, without a trailing slash. Commit/push the change to GitHub.
 9. Open the HTTPS LifeOS site on each phone, install it to the home screen, then open the installed app and use **Daily reminders → Enable & test**. Allow notifications. On iPhone/iPad, install to the Home Screen first; push notifications require iOS/iPadOS 16.4 or newer.
