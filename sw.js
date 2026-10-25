@@ -1,4 +1,4 @@
-const CACHE_NAME='lifeos-pwa-v8';
+const CACHE_NAME='lifeos-pwa-v9';
 const APP_FILES=['./','./index.html','./advanced.js','./push-config.js','./ultimate.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
 self.addEventListener('install',event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE_NAME);await cache.addAll(APP_FILES);await self.skipWaiting()})())});
 self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('lifeos-pwa-')&&key!==CACHE_NAME).map(key=>caches.delete(key)));await clients.claim()})())});
