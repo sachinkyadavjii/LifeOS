@@ -154,7 +154,7 @@ async function handleRequest(request, env) {
     if (!auth) return json({ error: "Device authorization failed." }, 401, origin, env);
     const device = await env.DB.prepare("SELECT * FROM devices WHERE device_id = ?").bind(auth.deviceId).first();
     try {
-      const result = await sendPush(env, device, "LifeOS test notification", "Push notifications are connected on this device.", "lifeos-test");
+      const result = await sendPush(env, device, "Nitya test notification", "Push notifications are connected on this device.", "lifeos-test");
       if (result.status === 404 || result.status === 410) await removeDevice(env, auth.deviceId);
       if (!result.ok) return json({ error: "Push service returned " + result.status + "." }, 502, origin, env);
       return json({ ok: true }, 200, origin, env);
@@ -184,7 +184,7 @@ async function runScheduled(env) {
     if (row.time !== local.time || row.last_sent_date === local.date) continue;
     try {
       const device = { device_id: row.device_id, endpoint: row.endpoint, expiration_time: row.expiration_time, keys_json: row.keys_json };
-      const result = await sendPush(env, device, "LifeOS reminder", row.name, "lifeos-" + row.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"));
+      const result = await sendPush(env, device, "Nitya reminder", row.name, "lifeos-" + row.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"));
       if (result.status === 404 || result.status === 410) {
         await removeDevice(env, row.device_id);
       } else if (result.ok) {

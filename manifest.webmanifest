@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "LifeOS — Your Personal Performance System",
-  "short_name": "LifeOS",
-  "description": "Personal habits, fitness, nutrition, focus, and daily progress tracker.",
+  "name": "Nitya — Your daily rhythm",
+  "short_name": "Nitya",
+  "description": "A calmer, simpler way to track your day.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

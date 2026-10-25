@@ -1,8 +1,8 @@
-# LifeOS background push reminders
+# Nitya background push reminders
 
-The main LifeOS site is static. This Cloudflare Worker and D1 database deliver reminder notifications while the app is closed. LifeOS does not send diary entries, habit history, health logs, or profile data to this service; it stores only a device push subscription, a hash of the device token, timezone, and reminder names/times.
+The main Nitya site is static. This Cloudflare Worker and D1 database deliver reminder notifications while the app is closed. Nitya does not send diary entries, habit history, health logs, or profile data to this service; it stores only a device push subscription, a hash of the device token, timezone, and reminder names/times.
 
-## Existing LifeOS deployment
+## Existing Nitya deployment
 
 The push Worker is deployed at `https://lifeos-push.lifeos-push-worker.workers.dev`, with its D1 database and VAPID keys configured. The app's `push-config.js` points to this Worker. Once the latest GitHub Pages build finishes, install/open LifeOS on each device and choose **Daily reminders → Enable & test**. Each device must grant notification permission separately.
 
