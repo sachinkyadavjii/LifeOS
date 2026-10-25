@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Nitya — Your daily rhythm",
-  "short_name": "Nitya",
-  "description": "A calmer, simpler way to track your day.",
+  "name": "HabitFlow — Habit tracker",
+  "short_name": "HabitFlow",
+  "description": "Build consistent habits, routines, and daily progress.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
